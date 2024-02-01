@@ -59,12 +59,10 @@ class MyAppState extends ChangeNotifier{
 class MyHomePage extends StatelessWidget{
 
   late double _deviceWidth;
-  late double _deviceHeight;
 
   @override
   Widget build(BuildContext context) {
         _deviceWidth = MediaQuery.of(context).size.width;
-    _deviceHeight = MediaQuery.of(context).size.height;
     // TODO: implement build
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
@@ -77,56 +75,52 @@ class MyHomePage extends StatelessWidget{
     icon = Icons.favorite_border;
   }
     return Scaffold(
-      body:Container(
-        width: _deviceWidth * 0.60,
+      body:Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        
+        children: [
+          Text('A Random AWESOME Idea'),
+          BigCard(pair: pair),
           
-          children: [
-            Text('A Random AWESOME Idea'),
-            BigCard(pair: pair),
-            
-            Container(
-              margin:EdgeInsets.fromLTRB(20, 0, 0, 0),
-              child: Row(
-                children: [
-                  // Boton Like
-                  ElevatedButton(
-                onPressed: () {
-                  appState.toggleFavorite();
-                } ,
-                child:Padding(
-                  padding:  EdgeInsets.fromLTRB(0,0,0,0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        icon,
-                      ),
-                      Text('Like')
-                    ],
-                  )
-                  ),
-                ),
-              
-              SizedBox(
-                width: _deviceWidth * 0.02,
-              ),
-                // Boton Next
+          Container(
+            margin: EdgeInsets.all(0.5),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Boton Like
                 ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                } ,
-                child:Padding(
-                  padding:  EdgeInsets.fromLTRB(10,0,0,0),
-                  child: Text('Next')
+              onPressed: () {
+                appState.toggleFavorite();
+              } ,
+              child:Row(
+                children: [
+                  Icon(
+                    icon,
                   ),
-                )
+                  Text('Like')
                 ],
               ),
-            )
-          ],
-          
-        ),
+              ),
+            
+            SizedBox(
+              width: _deviceWidth * 0.02,
+            ),
+              // Boton Next
+              ElevatedButton(
+              onPressed: () {
+                appState.getNext();
+              } ,
+              child:Text(
+                'Next'
+                ),
+              )
+              ],
+            ),
+          )
+        ],
+        
+                ),
       )
       
     );
