@@ -41,17 +41,29 @@ class MyAppState extends ChangeNotifier{
     var favorites = <WordPair>[];
 
 
+
     void toggleFavorite(){
       if(favorites.contains(current))
       {
         favorites.remove(current);
         favoritesCount--;
+        // Imprimirmos el contador para ver como va la cosa
+        print(favoritesCount);
       }else{
         favorites.add(current);
         favoritesCount++;
+        print(favoritesCount);
       }
       print(favorites);
       notifyListeners();
+    }
+
+
+    void eliminarTodo(){
+      while(favorites.isNotEmpty)
+      {
+        favorites.removeRange(0, favorites.length);
+      }
     }
   }
 
@@ -77,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
+        print('El contador actual de favorites es: ${favoriteCount}');
         page =  favoriteCount > 0 ? FavoritePage() : NoFavoritePage();
         break;
 
@@ -163,6 +176,18 @@ class GeneratorPage extends StatelessWidget {
                 },
                 child: Text('Next'),
               ),
+              ElevatedButton(onPressed: () => {
+                print('Contador reseteado'),
+                // Eliminamos el contador.
+                appState.favoritesCount = 0,
+                // Eliminamos todo el contenido del arreglo.
+                appState.eliminarTodo(),
+                print('${appState.favoritesCount}'),
+
+  
+              },child: Text('Reset')),
+              SizedBox(width: 15),
+
             ],
           ),
         ],
@@ -196,7 +221,7 @@ class FavoritePage extends StatelessWidget{
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Favorites count is $count"} ',style: TextStyle(fontSize: 30),),
+          Text('Favorites count is $count ',style: TextStyle(fontSize: 30),),
           Icon(Icons.emergency,color: Colors.red,size: 50,),
         ],
 
