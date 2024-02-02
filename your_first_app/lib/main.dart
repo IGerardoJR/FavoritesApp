@@ -222,11 +222,28 @@ class FavoritePage extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Favorites count is $count ',style: TextStyle(fontSize: 30),),
-          Icon(Icons.emergency,color: Colors.red,size: 50,),
+          // Ejemplo de como deberian de aparecer las palabras favoritas.
+          Column(
+            children: [
+              _formatoTexto(),
+              _formatoTexto(),
+              
+            ],
+          )
         ],
 
       )
     );
+  }
+
+  Widget _formatoTexto(){
+     return Row(
+                children: [
+                  Icon(Icons.favorite,color:Colors.red,size:30),
+                  SizedBox(width:20),
+                  Text('caramelo',style:TextStyle(fontSize: 20)),
+                ],
+     );
   }
 }
 class BigCard extends StatelessWidget {
