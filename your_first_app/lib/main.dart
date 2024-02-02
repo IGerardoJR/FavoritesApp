@@ -8,6 +8,7 @@ void main(){
 
 
 class MyApp extends StatelessWidget{
+  
   MyApp({super.key});
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget{
         title: 'Mi primer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green)
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.orangeAccent)
         ),
         home:MyHomePage(),
       )
@@ -53,12 +54,15 @@ class MyAppState extends ChangeNotifier{
 
 
 class MyHomePage extends StatefulWidget {
+  
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   var selectedIndex = 0;
+  var favoriteCount = 0;
+  
   @override
   Widget build(BuildContext context) {
 
@@ -68,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        page = Placeholder();
+        favoriteCount = 0;
+        page = favoriteCount > 0 ? FavoritePage() :  NoFavoritePage();
         break;
 
       default:
@@ -126,7 +131,7 @@ class GeneratorPage extends StatelessWidget {
     } else {
       icon = Icons.favorite_border;
     }
-
+  print("la palabra actual es ${appState.current}");
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -158,6 +163,36 @@ class GeneratorPage extends StatelessWidget {
   }
 }
 
+
+
+class NoFavoritePage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+      child: Center(
+        child:Text('Aun no tienes favoritos',style: TextStyle(fontSize:35, color:Colors.white,fontWeight: FontWeight.bold),)),
+    );
+  }
+}
+class FavoritePage extends StatelessWidget{
+  
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Favorites count is ',style: TextStyle(fontSize: 30),),
+          Icon(Icons.emergency,color: Colors.red,size: 50,),
+        ],
+      )
+    );
+  }
+}
 class BigCard extends StatelessWidget {
   const BigCard({
     super.key,
@@ -169,7 +204,7 @@ class BigCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.greenAccent,
+      color: Colors.deepOrange,
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Text(pair.asLowerCase, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),semanticsLabel: "${pair.first} ${pair.second}",),
