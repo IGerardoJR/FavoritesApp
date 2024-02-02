@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget{
 
 class MyAppState extends ChangeNotifier{
     var current = WordPair.random();
+    var favoritesCount = 0;
 
     void getNext(){
       current = WordPair.random();
@@ -44,9 +45,12 @@ class MyAppState extends ChangeNotifier{
       if(favorites.contains(current))
       {
         favorites.remove(current);
+        favoritesCount--;
       }else{
         favorites.add(current);
+        favoritesCount++;
       }
+      print(favorites);
       notifyListeners();
     }
   }
@@ -61,10 +65,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var selectedIndex = 0;
-  var favoriteCount = 0;
   
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var favoriteCount = appState.favoritesCount;
 
     Widget page;
     switch (selectedIndex) {
@@ -72,8 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = GeneratorPage();
         break;
       case 1:
-        favoriteCount = 0;
-        page = favoriteCount > 0 ? FavoritePage() :  NoFavoritePage();
+        page =  favoriteCount > 0 ? FavoritePage() : NoFavoritePage();
         break;
 
       default:
@@ -124,6 +128,7 @@ class GeneratorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
+    
 
     IconData icon;
     if (appState.favorites.contains(pair)) {
@@ -144,6 +149,9 @@ class GeneratorPage extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () {
                   appState.toggleFavorite();
+                  // Actualizamos el contador
+                  
+                  
                 },
                 icon: Icon(icon),
                 label: Text('Like'),
@@ -180,15 +188,18 @@ class FavoritePage extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var count = appState.favoritesCount;
     // TODO: implement build
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Favorites count is ',style: TextStyle(fontSize: 30),),
+          Text('Favorites count is $count"} ',style: TextStyle(fontSize: 30),),
           Icon(Icons.emergency,color: Colors.red,size: 50,),
         ],
+
       )
     );
   }
