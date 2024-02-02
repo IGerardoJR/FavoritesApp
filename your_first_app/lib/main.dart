@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -64,6 +66,10 @@ class MyAppState extends ChangeNotifier{
       {
         favorites.removeRange(0, favorites.length);
       }
+    }
+
+    void imprimirTodo(){
+
     }
   }
 
@@ -225,8 +231,9 @@ class FavoritePage extends StatelessWidget{
           // Ejemplo de como deberian de aparecer las palabras favoritas.
           Column(
             children: [
-              _formatoTexto(),
-              _formatoTexto(),
+              _formatoTexto(context),
+              _formatoTexto(context),
+
               
             ],
           )
@@ -236,13 +243,23 @@ class FavoritePage extends StatelessWidget{
     );
   }
 
-  Widget _formatoTexto(){
-     return Row(
-                children: [
-                  Icon(Icons.favorite,color:Colors.red,size:30),
-                  SizedBox(width:20),
-                  Text('caramelo',style:TextStyle(fontSize: 20)),
-                ],
+  Widget _formatoTexto(BuildContext context){
+    var appState = context.watch<MyAppState>();
+
+     return Column(
+       children: [
+         Row(
+                    children: [
+                      Icon(Icons.favorite,color:Colors.red,size:30),
+                      SizedBox(width:20),
+                      Column(
+                        children: [
+                          Text('Prueba 1'),
+                        ],
+                      )
+                    ],
+         ),
+       ],
      );
   }
 }
