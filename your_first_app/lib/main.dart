@@ -201,24 +201,24 @@ class FavoritePage extends StatelessWidget {
     var elementos = appState.favorites;
     // TODO: implement build
     return Padding(
-        padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            'Favorites count is $count ',
-            style: TextStyle(fontSize: 30),
-          ),
-          // Ejemplo de como deberian de aparecer las palabras favoritas.
+      padding: const EdgeInsets.fromLTRB(10, 50, 0, 0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          'Favorites count is $count ',
+          style: TextStyle(fontSize: 30),
+        ),
 
-          Container(
-            child: ListView.builder(
-                itemCount: elementos.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(elementos[index].toString()),
-                  );
-                }),
-          )
-        ]));
+        Expanded(
+            child: SizedBox(
+                height: 200,
+                child: ListView.builder(
+                    itemCount: elementos.length,
+                    itemBuilder: (context, index) {
+                      return _formatoTexto(elementos[index].toString());
+                    })))
+        // Ejemplo de como deberian de aparecer las palabras favoritas.
+      ]),
+    );
   }
 
   Widget _formatoTexto(String texto) {
@@ -230,7 +230,9 @@ class FavoritePage extends StatelessWidget {
             SizedBox(width: 20),
             Column(
               children: [
-                Text(texto),
+                Text(texto,
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
               ],
             )
           ],
